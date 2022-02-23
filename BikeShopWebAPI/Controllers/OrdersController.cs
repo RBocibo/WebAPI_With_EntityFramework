@@ -1,6 +1,5 @@
 ﻿using BikeShop.Entities.Data;
 using BikeShop.Entities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BikeShopWebAPI.Controllers
@@ -95,7 +94,6 @@ namespace BikeShopWebAPI.Controllers
                 throw;
             }
             
-
             return NoContent();
 
         }

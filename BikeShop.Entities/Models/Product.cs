@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BikeShop.Entities.Models
 {
@@ -20,12 +15,14 @@ namespace BikeShop.Entities.Models
         public int ModelYear { get; set; }
         public decimal Price { get; set; }
 
-        [ForeignKey("BrandID")]
+        [Required]
         public int BrandID { get; set; }
+        [ForeignKey("BrandID")]
         public Brand? Brand { get; set; }
 
-        [ForeignKey("CategoryID")]
+        [Required]
         public int CategoryID { get; set; }
+        [ForeignKey("CategoryID")]
         public Category? Category { get; set; }
 
     }

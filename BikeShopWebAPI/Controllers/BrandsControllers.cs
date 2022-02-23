@@ -53,10 +53,6 @@ namespace BikeShopWebAPI.Controllers
         {
             try
             {
-                if (id != 0)
-                {
-                    return BadRequest();
-                }
                 if (brand == null)
                 {
                     return BadRequest();

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BikeShop.Entities.Migrations
 {
     [DbContext(typeof(BikeShopContext))]
-    [Migration("20220223110645_InitialMigration")]
+    [Migration("20220223134011_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -241,8 +241,6 @@ namespace BikeShop.Entities.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.HasIndex("StoreID");
-
                     b.ToTable("Order");
 
                     b.HasData(
@@ -410,7 +408,7 @@ namespace BikeShop.Entities.Migrations
 
                     b.HasOne("BikeShop.Entities.Models.Store", "Store")
                         .WithMany()
-                        .HasForeignKey("StoreID")
+                        .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

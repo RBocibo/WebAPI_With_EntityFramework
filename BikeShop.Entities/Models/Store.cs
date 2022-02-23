@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BikeShop.Entities.Models
 {
@@ -21,8 +16,12 @@ namespace BikeShop.Entities.Models
         public string Email { get; set; } = string.Empty;
         [Required]
         public string Address { get; set; } = string.Empty;
-        public Product? Product { get; set; }
-        [ForeignKey("ProductID")]
+
+
+        [Required]
         public int ProductID { get; set; }
+        [ForeignKey("ProductID")]
+        public Product? Product { get; set; }
+        
     }
 }
