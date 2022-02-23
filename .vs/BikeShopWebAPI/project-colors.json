@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "ed05899b-6414-483c-84e8-9bee20d96188": {
+      "ProjectGuid": "ed05899b-6414-483c-84e8-9bee20d96188",
+      "DisplayName": "BikeShopWebAPI",
+      "ColorIndex": 0
+    },
+    "86615fd7-0444-4d23-ad55-4c213eec1276": {
+      "ProjectGuid": "86615fd7-0444-4d23-ad55-4c213eec1276",
+      "DisplayName": "BikeShop.Entities",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 2
+}
