@@ -15,13 +15,14 @@ namespace BikeShopWebAPI.Controllers
             _context = context;
         }
 
+       // [Route("Select")]
         [HttpGet]
         public IActionResult Get()
         {
             var brands = _context.Brands;
             return Ok(brands);
         }
-
+        //[Route("Insert")]
         [HttpPost]
         public IActionResult Post(Brand brand)
         {

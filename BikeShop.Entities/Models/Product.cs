@@ -16,13 +16,13 @@ namespace BikeShop.Entities.Models
         public decimal Price { get; set; }
 
         [Required]
-        public int BrandID { get; set; }
         [ForeignKey("BrandID")]
+        public int BrandID { get; set; }      
         public Brand? Brand { get; set; }
 
         [Required]
-        public int CategoryID { get; set; }
         [ForeignKey("CategoryID")]
+        public int CategoryID { get; set; }       
         public Category? Category { get; set; }
 
     }

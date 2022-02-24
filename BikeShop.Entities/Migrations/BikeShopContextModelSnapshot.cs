@@ -239,6 +239,8 @@ namespace BikeShop.Entities.Migrations
 
                     b.HasIndex("CustomerID");
 
+                    b.HasIndex("StoreID");
+
                     b.ToTable("Order");
 
                     b.HasData(
@@ -406,7 +408,7 @@ namespace BikeShop.Entities.Migrations
 
                     b.HasOne("BikeShop.Entities.Models.Store", "Store")
                         .WithMany()
-                        .HasForeignKey("CustomerID")
+                        .HasForeignKey("StoreID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

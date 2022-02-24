@@ -130,8 +130,8 @@ namespace BikeShop.Entities.Migrations
                         principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Order_Store_CustomerID",
-                        column: x => x.CustomerID,
+                        name: "FK_Order_Store_StoreID",
+                        column: x => x.StoreID,
                         principalTable: "Store",
                         principalColumn: "StoreId",
                         onDelete: ReferentialAction.Cascade);
@@ -210,6 +210,11 @@ namespace BikeShop.Entities.Migrations
                 name: "IX_Order_CustomerID",
                 table: "Order",
                 column: "CustomerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_StoreID",
+                table: "Order",
+                column: "StoreID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_BrandID",
