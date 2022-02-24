@@ -2,6 +2,7 @@
 using BikeShop.Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Contracts;
 
 namespace BikeShopWebAPI.Controllers
 {
@@ -10,10 +11,12 @@ namespace BikeShopWebAPI.Controllers
     public class StoresController : ControllerBase
     {
         private BikeShopContext _context;
+        private readonly ILoggerManager _logger;
 
-        public StoresController(BikeShopContext context)
+        public StoresController(BikeShopContext context, ILoggerManager loggerManager)
         {
             _context = context;
+            _logger = loggerManager;
         }
 
         [HttpGet]
@@ -40,10 +43,11 @@ namespace BikeShopWebAPI.Controllers
                 _context.Stores.Add(store);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
             
             return Created("Stores table has been created", store);
@@ -63,10 +67,11 @@ namespace BikeShopWebAPI.Controllers
 
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
 
             return NoContent();
@@ -87,10 +92,11 @@ namespace BikeShopWebAPI.Controllers
                 _context.Remove(store);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
 
             return NoContent();

@@ -1,5 +1,6 @@
 ﻿using BikeShop.Entities.Data;
 using BikeShop.Entities.Models;
+using Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BikeShopWebAPI.Controllers
@@ -9,18 +10,22 @@ namespace BikeShopWebAPI.Controllers
     public class BrandsControllers : ControllerBase
     {
         private BikeShopContext _context;
+        private readonly ILoggerManager _logger;
 
-        public BrandsControllers(BikeShopContext context)
+        public BrandsControllers(BikeShopContext context, ILoggerManager loggerManager)
         {
             _context = context;
+            _logger = loggerManager;
         }
 
        // [Route("Select")]
         [HttpGet]
         public IActionResult Get()
         {
+            
             var brands = _context.Brands;
             return Ok(brands);
+            //_logger.LogInfo("Accessed Brand Controller and return information");
         }
         //[Route("Insert")]
         [HttpPost]
@@ -40,10 +45,11 @@ namespace BikeShopWebAPI.Controllers
                 _context.Brands.Add(brand);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
             
             return Created("Brands table has been created", brand);
@@ -68,12 +74,12 @@ namespace BikeShopWebAPI.Controllers
                 dbBrand.BrandName = brand.BrandName;
 
                 _context.SaveChanges();
-
                 
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
             return NoContent();
         }
@@ -81,6 +87,7 @@ namespace BikeShopWebAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            _logger.LogWarn("This is a warning");
             try
             {
                 var brand = _context.Brands.FirstOrDefault(b => b.BrandID == id);
@@ -93,10 +100,10 @@ namespace BikeShopWebAPI.Controllers
                 _context.Remove(brand);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                _logger.LogError(ex.ToString());
+                return null;//BadRequest(ex.Message);
             }
             
             return NoContent();

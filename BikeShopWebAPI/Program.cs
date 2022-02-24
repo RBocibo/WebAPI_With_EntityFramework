@@ -1,5 +1,7 @@
 using BikeShop.Entities.Data;
 using Microsoft.EntityFrameworkCore;
+using LoggerService;
+using Contracts;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +12,11 @@ builder.Services.AddDbContext<BikeShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     
-}); 
+});
+
+
+// Registering Logging service to the container
+builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

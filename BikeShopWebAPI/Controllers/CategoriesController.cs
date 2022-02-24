@@ -1,6 +1,7 @@
 ﻿using BikeShop.Entities.Data;
 using BikeShop.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
+using Contracts;
 
 namespace BikeShopWebAPI.Controllers
 {
@@ -9,16 +10,19 @@ namespace BikeShopWebAPI.Controllers
     public class CategoriesController : ControllerBase
     {
         private BikeShopContext _context;
+        private readonly ILoggerManager _logger;
 
-        public CategoriesController(BikeShopContext context)
+        public CategoriesController(BikeShopContext context, ILoggerManager loggerManager)
         {
             _context = context;
+            _logger = loggerManager;
         }
         [HttpGet]
         public IActionResult Get()
         {
-            var categories = _context.Categories.Where(c => c.CategoryName == "Road Bike");
+            var categories = _context.Categories;
             return Ok(categories);
+            //_logger.LogInfo("Accessed Categories Controller and return information");
         }
         [HttpPost]
         public IActionResult Post( Category category)
@@ -37,10 +41,11 @@ namespace BikeShopWebAPI.Controllers
                 _context.Categories.Add(category);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
 
             return Created("Categories table has been created", category);
@@ -59,10 +64,11 @@ namespace BikeShopWebAPI.Controllers
 
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
 
             return NoContent();
@@ -82,10 +88,11 @@ namespace BikeShopWebAPI.Controllers
                 _context.Remove(category);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
 
             return NoContent();

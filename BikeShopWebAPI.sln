@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeShopWebAPI", "BikeShopWebAPI\BikeShopWebAPI.csproj", "{ED05899B-6414-483C-84E8-9BEE20D96188}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeShopWebAPI", "BikeShopWebAPI\BikeShopWebAPI.csproj", "{ED05899B-6414-483C-84E8-9BEE20D96188}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeShop.Entities", "BikeShop.Entities\BikeShop.Entities.csproj", "{86615FD7-0444-4D23-AD55-4C213EEC1276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeShop.Entities", "BikeShop.Entities\BikeShop.Entities.csproj", "{86615FD7-0444-4D23-AD55-4C213EEC1276}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{9AAC9F85-5966-426C-9213-239B3F5237B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerService", "LoggerService\LoggerService.csproj", "{7E882848-EE2B-435B-9441-59BC8AA8B0D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{86615FD7-0444-4D23-AD55-4C213EEC1276}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86615FD7-0444-4D23-AD55-4C213EEC1276}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86615FD7-0444-4D23-AD55-4C213EEC1276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AAC9F85-5966-426C-9213-239B3F5237B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AAC9F85-5966-426C-9213-239B3F5237B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AAC9F85-5966-426C-9213-239B3F5237B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AAC9F85-5966-426C-9213-239B3F5237B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E882848-EE2B-435B-9441-59BC8AA8B0D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E882848-EE2B-435B-9441-59BC8AA8B0D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E882848-EE2B-435B-9441-59BC8AA8B0D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E882848-EE2B-435B-9441-59BC8AA8B0D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

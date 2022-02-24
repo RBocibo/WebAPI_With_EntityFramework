@@ -1,5 +1,6 @@
 ﻿using BikeShop.Entities.Data;
 using BikeShop.Entities.Models;
+using Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BikeShopWebAPI.Controllers
@@ -9,10 +10,12 @@ namespace BikeShopWebAPI.Controllers
     public class OrdersController : ControllerBase
     {
         private BikeShopContext _context;
+        private readonly ILoggerManager _logger;
 
-        public OrdersController(BikeShopContext context)
+        public OrdersController(BikeShopContext context, ILoggerManager loggerManager)
         {
             _context = context;
+            _logger = loggerManager;
         }
 
         [HttpGet]
@@ -39,10 +42,11 @@ namespace BikeShopWebAPI.Controllers
                 _context.Orders.Add(order);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
             
 
@@ -63,10 +67,11 @@ namespace BikeShopWebAPI.Controllers
 
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
             
 
@@ -88,10 +93,11 @@ namespace BikeShopWebAPI.Controllers
                 _context.Remove(orders);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
             
             return NoContent();

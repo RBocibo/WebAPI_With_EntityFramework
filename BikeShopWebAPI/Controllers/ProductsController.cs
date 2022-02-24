@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BikeShop.Entities.Models;
+using Contracts;
 
 namespace BikeShopWebAPI.Controllers
 {
@@ -10,10 +11,12 @@ namespace BikeShopWebAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private BikeShopContext _context;
+        private readonly ILoggerManager _logger;
 
-        public ProductsController(BikeShopContext context)
+        public ProductsController(BikeShopContext context, ILoggerManager loggerManager)
         {
             _context = context;
+            _logger = loggerManager;
         }
 
         [HttpGet]
@@ -41,9 +44,10 @@ namespace BikeShopWebAPI.Controllers
 
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
 
             return Created("Products table has been created", products);
@@ -62,10 +66,11 @@ namespace BikeShopWebAPI.Controllers
                 dbProducts.ModelYear = product.ModelYear;
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
 
             return NoContent();
@@ -86,10 +91,11 @@ namespace BikeShopWebAPI.Controllers
                 _context.Remove(product);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
 
             return NoContent();
