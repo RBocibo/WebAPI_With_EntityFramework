@@ -2,6 +2,10 @@
 using BikeShop.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Contracts;
+using MediatR;
+using BikeShop.Entities.Queries;
+using BikeShop.Entities.Commands;
+using BikeShop.Entities.Commands.UpdateCommands;
 
 namespace BikeShopWebAPI.Controllers
 {
@@ -11,49 +15,32 @@ namespace BikeShopWebAPI.Controllers
     {
         private BikeShopContext _context;
         private readonly ILoggerManager _logger;
+        private readonly IMediator _mediator;
 
-        public CategoriesController(BikeShopContext context, ILoggerManager loggerManager)
+        public CategoriesController(IMediator mediator)
         {
-            _context = context;
-            _logger = loggerManager;
+            _mediator = mediator;
         }
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IEnumerable<Category>> GetCategories()
         {
-            var categories = _context.Categories;
-            return Ok(categories);
-            //_logger.LogInfo("Accessed Categories Controller and return information");
+            return await _mediator.Send(new GetCategoriesQuery());
         }
-        [HttpPost]
-        public IActionResult Post( Category category)
+
+        [HttpGet("{id}")]
+        public async Task<Category> GetCategory(int id)
         {
-            try
-            {
-                if (category == null)
-                {
-                    return BadRequest();
-                }
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
+            return await _mediator.Send<Category>(new GetCategoryByIdQuery { Id = id });
+        }
 
-                _context.Categories.Add(category);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-
-            return Created("Categories table has been created", category);
-
+        [HttpPost]
+        public async Task<ActionResult> CreateCategory([FromBody] AddCategoryCommand command)
+        {
+            return (ActionResult)await _mediator.Send(command);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Category category)
+        /*public IActionResult Put(int id, [FromBody] Category category)
         {
             try
             {
@@ -72,31 +59,20 @@ namespace BikeShopWebAPI.Controllers
             }
 
             return NoContent();
-        }
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        }*/
+        [HttpPut]
+        public async Task<ActionResult> UpdateCategory([FromBody] UpdateCategoryCommand command)
         {
-            try
-            {
-                var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
 
-                if (category == null)
-                {
-                    return BadRequest();
-                }
+            return (ActionResult)await _mediator.Send(command);
 
-                _context.Remove(category);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
+        }
 
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-
+        [HttpDelete]
+        public async Task<ActionResult> DeleteCategory(int id)
+        {
+            await _mediator.Send(new DeleteCategoryCommand { Id = id });
             return NoContent();
-
         }
     }
 }

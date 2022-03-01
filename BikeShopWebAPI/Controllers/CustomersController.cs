@@ -1,6 +1,10 @@
-﻿using BikeShop.Entities.Data;
+﻿using BikeShop.Entities.Commands;
+using BikeShop.Entities.Commands.UpdateCommands;
+using BikeShop.Entities.Data;
 using BikeShop.Entities.Models;
+using BikeShop.Entities.Queries;
 using Contracts;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BikeShopWebAPI.Controllers
@@ -11,49 +15,32 @@ namespace BikeShopWebAPI.Controllers
     {
         private BikeShopContext _context;
         private readonly ILoggerManager _logger;
-        public CustomersController(BikeShopContext context, ILoggerManager loggerManager)
+        private readonly IMediator _mediator;
+
+        public CustomersController(IMediator mediator)
         {
-            _context = context;
-            _logger = loggerManager;
+            _mediator = mediator;
+        }
+        [HttpGet]
+        public async Task<IEnumerable<Customer>> GetCustomers()
+        {
+            return await _mediator.Send(new GetCustomersQuery());
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("{id}")]
+        public async Task<Customer> GetCustomer(int id)
         {
-            var customers = _context.Customers;
-            return Ok(customers);
+            return await _mediator.Send<Customer>(new GetCustomerByIdQuery { Id = id });
         }
 
         [HttpPost]
-        public IActionResult Post(Customer customer)
+        public async Task<ActionResult> CreateCustomer([FromBody] AddCustomerCommand command)
         {
-            try
-            {
-                if (customer == null)
-                {
-                    return BadRequest();
-                }
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-
-                _context.Customers.Add(customer);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-            
-
-            return Created("Customers table has been created", customer);
+            return (ActionResult)await _mediator.Send(command);
 
         }
 
-        [HttpPut("{id}")]
+        /*[HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Customer customer)
         {
             try
@@ -82,33 +69,20 @@ namespace BikeShopWebAPI.Controllers
            
 
             return NoContent();
+        }*/
+        [HttpPut]
+        public async Task<ActionResult> UpdateCustomer([FromBody] UpdateCustomerCommand command)
+        {
+
+            return (ActionResult)await _mediator.Send(command);
+
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteCustomer(int id)
         {
-            try
-            {
-                var customer = _context.Customers.FirstOrDefault(c => c.CustomerId == id);
-
-                if (customer == null)
-                {
-                    return BadRequest();
-                }
-
-                _context.Remove(customer);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-            
-
+            await _mediator.Send(new DeleteCustomerCommand { Id = id });
             return NoContent();
-
         }
     }
 }

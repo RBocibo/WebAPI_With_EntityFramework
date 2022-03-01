@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BikeShop.Entities.Models;
 using Contracts;
+using MediatR;
+using BikeShop.Entities.Queries;
+using BikeShop.Entities.Commands;
+using BikeShop.Entities.Commands.UpdateCommands;
 
 namespace BikeShopWebAPI.Controllers
 {
@@ -12,49 +16,31 @@ namespace BikeShopWebAPI.Controllers
     {
         private BikeShopContext _context;
         private readonly ILoggerManager _logger;
+        private readonly IMediator _mediator;
 
-        public ProductsController(BikeShopContext context, ILoggerManager loggerManager)
+        public ProductsController(IMediator mediator)
         {
-            _context = context;
-            _logger = loggerManager;
+            _mediator = mediator;
         }
-
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IEnumerable<Product>> GetProducts()
         {
-            var products = _context.Products;
-            return Ok(products);
+            return await _mediator.Send(new GetProductsQuery());
         }
+
+        [HttpGet("{id}")]
+        public async Task<Product> GetProduct(int id)
+        {
+            return await _mediator.Send<Product>(new GetProductByIdQuery { Id = id });
+        }
+
         [HttpPost]
-        public IActionResult Post([FromBody] Product products)
+        public async Task<ActionResult> CreateProduct([FromBody] AddProductCommand command)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-                if (products == null)
-                {
-                    return BadRequest();
-                }
-
-
-                _context.Products.Add(products);
-
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-
-            return Created("Products table has been created", products);
-
+            return (ActionResult)await _mediator.Send(command);
         }
 
-        [HttpPut("{id}")]
+        /*[HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Product product)
         {
             try
@@ -74,32 +60,20 @@ namespace BikeShopWebAPI.Controllers
             }
 
             return NoContent();
+        }*/
+        [HttpPut]
+        public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductCommand command)
+        {
+
+            return (ActionResult)await _mediator.Send(command);
+
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteProduct(int id)
         {
-            try
-            {
-                var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
-
-                if (product == null)
-                {
-                    return BadRequest();
-                }
-
-                _context.Remove(product);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-
+            await _mediator.Send(new DeleteProductCommand { Id = id });
             return NoContent();
-
         }
     }
 }

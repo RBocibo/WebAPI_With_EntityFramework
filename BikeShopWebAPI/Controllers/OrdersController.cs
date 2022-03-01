@@ -1,6 +1,10 @@
-﻿using BikeShop.Entities.Data;
+﻿using BikeShop.Entities.Commands;
+using BikeShop.Entities.Commands.UpdateCommands;
+using BikeShop.Entities.Data;
 using BikeShop.Entities.Models;
+using BikeShop.Entities.Queries;
 using Contracts;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BikeShopWebAPI.Controllers
@@ -11,50 +15,30 @@ namespace BikeShopWebAPI.Controllers
     {
         private BikeShopContext _context;
         private readonly ILoggerManager _logger;
-
-        public OrdersController(BikeShopContext context, ILoggerManager loggerManager)
+        private readonly IMediator _mediator;
+        public OrdersController(IMediator mediator)
         {
-            _context = context;
-            _logger = loggerManager;
+            _mediator = mediator;
+        }
+        [HttpGet]
+        public async Task<IEnumerable<Order>> GetOrders()
+        {
+            return await _mediator.Send(new GetOrdersQuery());
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("{id}")]
+        public async Task<Order> GetOrder(int id)
         {
-            var oders = _context.Orders;
-            return Ok(oders);
+            return await _mediator.Send<Order>(new GetOrderByIdQuery { Id = id });
         }
 
         [HttpPost]
-        public IActionResult Post(Order order)
+        public async Task<ActionResult> CreateOrder([FromBody] AddOrderCommand command)
         {
-            try
-            {
-                if (order == null)
-                {
-                    return BadRequest();
-                }
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-
-                _context.Orders.Add(order);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-            
-
-            return Created($"Orders table has been created", order);
-
+            return (ActionResult)await _mediator.Send(command);
         }
 
-        [HttpPut("{id}")]
+        /*[HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Order order)
         {
             try
@@ -76,32 +60,20 @@ namespace BikeShopWebAPI.Controllers
             
 
             return NoContent();
+        }*/
+        [HttpPut]
+        public async Task<ActionResult> UpdateOrder([FromBody] UpdateOrderCommand command)
+        {
+
+            return (ActionResult)await _mediator.Send(command);
+
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteOrder(int id)
         {
-            try
-            {
-                var orders = _context.Orders.FirstOrDefault(o => o.OrderId == id);
-
-                if (orders == null)
-                {
-                    return BadRequest();
-                }
-
-                _context.Remove(orders);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-            
+            await _mediator.Send(new DeleteOrderCommand { Id = id });
             return NoContent();
-
         }
 
     }

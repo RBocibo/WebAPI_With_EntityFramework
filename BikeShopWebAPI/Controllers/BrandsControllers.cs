@@ -1,6 +1,10 @@
-﻿using BikeShop.Entities.Data;
+﻿using BikeShop.Entities.Commands;
+using BikeShop.Entities.Commands.UpdateCommands;
+using BikeShop.Entities.Data;
 using BikeShop.Entities.Models;
+using BikeShop.Entities.Queries;
 using Contracts;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BikeShopWebAPI.Controllers
@@ -9,105 +13,46 @@ namespace BikeShopWebAPI.Controllers
     [ApiController]
     public class BrandsControllers : ControllerBase
     {
-        private BikeShopContext _context;
         private readonly ILoggerManager _logger;
+        private readonly IMediator _mediator;
 
-        public BrandsControllers(BikeShopContext context, ILoggerManager loggerManager)
+        public BrandsControllers(IMediator mediator)
         {
-            _context = context;
-            _logger = loggerManager;
+            _mediator = mediator;
         }
-
-       // [Route("Select")]
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IEnumerable<Brand>> GetBrands()
         {
-            
-            var brands = _context.Brands;
-            return Ok(brands);
-            //_logger.LogInfo("Accessed Brand Controller and return information");
+            return await _mediator.Send(new GetBrandsQuery());
         }
-        //[Route("Insert")]
+
+        [HttpGet("{id}")]
+        public async Task<Brand> GetBrand(int id)
+        {
+            return await _mediator.Send<Brand>(new GetBrandByIdQuery { Id = id});
+        }
+
         [HttpPost]
-        public IActionResult Post(Brand brand)
+        public async Task<ActionResult> CreateBrand([FromBody] AddBrandCommand command)
         {
-            try
-            {
-                if (brand == null)
-                {
-                    return BadRequest();
-                }
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
 
-                _context.Brands.Add(brand);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-            
-            return Created("Brands table has been created", brand);
+            return (ActionResult)await _mediator.Send(command);
 
         }
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Brand brand)
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateBrand([FromBody] UpdateBrandCommand command)
         {
-            try
-            {
-                if (brand == null)
-                {
-                    return BadRequest();
-                }
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-                var dbBrand = _context.Brands
-                   .FirstOrDefault(b => b.BrandID == id);
 
-                dbBrand.BrandName = brand.BrandName;
+            return (ActionResult)await _mediator.Send(command);
 
-                _context.SaveChanges();
-                
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-            return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteBrand(int id)
         {
-            _logger.LogWarn("This is a warning");
-            try
-            {
-                var brand = _context.Brands.FirstOrDefault(b => b.BrandID == id);
-
-                if (brand == null)
-                {
-                    return BadRequest();
-                }
-
-                _context.Remove(brand);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                return null;//BadRequest(ex.Message);
-            }
-            
+            await _mediator.Send(new DeleteBrandCommand { Id = id });
             return NoContent();
-
         }
 
     }

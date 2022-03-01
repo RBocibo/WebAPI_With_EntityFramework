@@ -2,7 +2,9 @@ using BikeShop.Entities.Data;
 using Microsoft.EntityFrameworkCore;
 using LoggerService;
 using Contracts;
-
+using MediatR;
+using System.Reflection;
+using BikeShop.Entities.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,9 @@ builder.Services.AddDbContext<BikeShopContext>(options =>
     
 });
 
+//Add MediatR to our project’s DI container and pass the assembly that would contain the commands, queries, and handlers
+
+builder.Services.AddMediatR(typeof(GetBrandHandler).Assembly);
 
 // Registering Logging service to the container
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
