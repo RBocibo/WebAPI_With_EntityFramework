@@ -17,7 +17,6 @@ namespace BikeShop.Entities.Models
         public string LastName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "A phone number is required.")]
-        //[DataType(DataType.PhoneNumber, ErrorMessage = "Invalid Phone Number")]
         [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Phone Number.")]
         public string ContactNumber { get; set; } = string.Empty;
         [EmailAddress]
@@ -37,5 +36,6 @@ namespace BikeShop.Entities.Models
         [Required]
         [StringLength(20)]
         public string Country { get; set; } = string.Empty;
+
     }
 }

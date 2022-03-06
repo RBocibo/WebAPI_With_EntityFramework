@@ -31,8 +31,8 @@ namespace BikeShop.Entities.Handlers.UpdateHandlers
                 product.ProductName = request.Product?.ProductName ?? String.Empty;
                 product.ModelYear = request.Product?.ModelYear ?? 0;
                 product.Price = request.Product?.Price ?? 0;
-                product.BrandID = request.Product?.BrandID ?? 0;
-                product.CategoryID = request.Product?.CategoryID ?? 0;
+                //product.BrandID = request.Product?.BrandID ?? 0;
+                //product.CategoryID = request.Product?.CategoryID ?? 0;
                 _context.Products.Update(product);
 
                 await _context.SaveChangesAsync();

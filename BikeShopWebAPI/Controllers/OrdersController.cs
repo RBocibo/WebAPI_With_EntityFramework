@@ -13,23 +13,23 @@ namespace BikeShopWebAPI.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private BikeShopContext _context;
-        private readonly ILoggerManager _logger;
         private readonly IMediator _mediator;
         public OrdersController(IMediator mediator)
         {
             _mediator = mediator;
         }
         [HttpGet]
+        [Route("GetAll")]
         public async Task<IEnumerable<Order>> GetOrders()
         {
             return await _mediator.Send(new GetOrdersQuery());
         }
 
         [HttpGet("{id}")]
-        public async Task<Order> GetOrder(int id)
+        public async Task<IActionResult> GetOrder(int id)
         {
-            return await _mediator.Send<Order>(new GetOrderByIdQuery { Id = id });
+            var order = await _mediator.Send<Order>(new GetOrderByIdQuery { Id = id });
+            return order == null ? NotFound() : Ok(order);
         }
 
         [HttpPost]
@@ -38,29 +38,6 @@ namespace BikeShopWebAPI.Controllers
             return (ActionResult)await _mediator.Send(command);
         }
 
-        /*[HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Order order)
-        {
-            try
-            {
-                var dbOrder = _context.Orders
-               .FirstOrDefault(o => o.OrderId == id);
-
-                dbOrder.RequiredDate = order.RequiredDate;
-                dbOrder.ShippedDate = order.ShippedDate;
-
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-            
-
-            return NoContent();
-        }*/
         [HttpPut]
         public async Task<ActionResult> UpdateOrder([FromBody] UpdateOrderCommand command)
         {

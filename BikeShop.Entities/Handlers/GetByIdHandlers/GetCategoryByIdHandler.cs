@@ -20,7 +20,8 @@ namespace BikeShop.Entities.Handlers
         }
         public async Task<Category> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Categories.FindAsync(request.Id);
+            var category = await _context.Categories.FindAsync(request.Id);
+            return category; 
         }
     }
 }

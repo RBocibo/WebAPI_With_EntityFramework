@@ -17,7 +17,8 @@ namespace BikeShop.Entities.Handlers
         }
         public async Task<IEnumerable<Order>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Orders.ToListAsync(cancellationToken);
+            var order = await _context.Orders.ToListAsync();
+            return order;
         }
 
     }

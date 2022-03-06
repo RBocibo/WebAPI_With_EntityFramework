@@ -65,21 +65,21 @@ namespace BikeShop.Entities.Migrations
                     ProductName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ModelYear = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BrandID = table.Column<int>(type: "int", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false)
+                    BrandId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product", x => x.ProductId);
                     table.ForeignKey(
-                        name: "FK_Product_Brand_BrandID",
-                        column: x => x.BrandID,
+                        name: "FK_Product_Brand_BrandId",
+                        column: x => x.BrandId,
                         principalTable: "Brand",
                         principalColumn: "BrandID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Product_Category_CategoryID",
-                        column: x => x.CategoryID,
+                        name: "FK_Product_Category_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Category",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
@@ -95,14 +95,14 @@ namespace BikeShop.Entities.Migrations
                     Contacts = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductID = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Store", x => x.StoreId);
                     table.ForeignKey(
-                        name: "FK_Store_Product_ProductID",
-                        column: x => x.ProductID,
+                        name: "FK_Store_Product_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
@@ -117,21 +117,21 @@ namespace BikeShop.Entities.Migrations
                     RequiredDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ShippedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CustomerID = table.Column<int>(type: "int", nullable: false),
-                    StoreID = table.Column<int>(type: "int", nullable: false)
+                    StoreId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Order", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_Order_Customer_CustomerID",
-                        column: x => x.CustomerID,
+                        name: "FK_Order_Customer_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customer",
                         principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Order_Store_StoreID",
-                        column: x => x.StoreID,
+                        name: "FK_Order_Store_StoreId",
+                        column: x => x.StoreId,
                         principalTable: "Store",
                         principalColumn: "StoreId",
                         onDelete: ReferentialAction.Cascade);
@@ -172,7 +172,7 @@ namespace BikeShop.Entities.Migrations
 
             migrationBuilder.InsertData(
                 table: "Product",
-                columns: new[] { "ProductId", "BrandID", "CategoryID", "ModelYear", "Price", "ProductName" },
+                columns: new[] { "ProductId", "BrandId", "CategoryId", "ModelYear", "Price", "ProductName" },
                 values: new object[,]
                 {
                     { 1, 1, 1, 2020, 1200m, "Bmax 4 wiler" },
@@ -183,53 +183,54 @@ namespace BikeShop.Entities.Migrations
 
             migrationBuilder.InsertData(
                 table: "Store",
-                columns: new[] { "StoreId", "Address", "Contacts", "Email", "ProductID", "StoreName" },
+                columns: new[] { "StoreId", "Address", "Contacts", "Email", "ProductId", "StoreName" },
                 values: new object[] { 1, "121 Lake street Sandton Gauteng", 123654, "bikeSonton@bikeshop.co.za", 1, "Sandton Shop" });
 
             migrationBuilder.InsertData(
                 table: "Store",
-                columns: new[] { "StoreId", "Address", "Contacts", "Email", "ProductID", "StoreName" },
+                columns: new[] { "StoreId", "Address", "Contacts", "Email", "ProductId", "StoreName" },
                 values: new object[] { 2, "10 Ocean Blue Mall  CapeTown Western Cape", 123654, "bikeCapeTown@bikeshop.co.za", 2, "Cape Town Shop" });
 
             migrationBuilder.InsertData(
                 table: "Store",
-                columns: new[] { "StoreId", "Address", "Contacts", "Email", "ProductID", "StoreName" },
-                values: new object[] { 3, "Rich street 10A Bloem FS", 123654, "bikeBloem@bikeshop.co.za", 3, "Bloemfontein Shop" });
+                columns: new[] { "StoreId", "Address", "Contacts", "Email", "ProductId", "StoreName" },
+                values: new object[] { 3, "Rich street 10A Bloem FS", 123654, "bikeBloem@bikeshop.co.za", 2, "Bloemfontein Shop" });
 
             migrationBuilder.InsertData(
                 table: "Order",
-                columns: new[] { "OrderId", "CustomerID", "OrderDate", "RequiredDate", "ShippedDate", "StoreID" },
-                values: new object[] { 1, 1, new DateTime(2020, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 });
-
-            migrationBuilder.InsertData(
-                table: "Order",
-                columns: new[] { "OrderId", "CustomerID", "OrderDate", "RequiredDate", "ShippedDate", "StoreID" },
-                values: new object[] { 2, 2, new DateTime(2021, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Order_CustomerID",
-                table: "Order",
-                column: "CustomerID");
+                columns: new[] { "OrderId", "CustomerId", "OrderDate", "RequiredDate", "ShippedDate", "StoreId" },
+                values: new object[,]
+                {
+                    { 1, 2, new DateTime(2020, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 2, 3, new DateTime(2021, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 },
+                    { 3, 4, new DateTime(2020, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 4, 2, new DateTime(2021, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 }
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_StoreID",
+                name: "IX_Order_CustomerId",
                 table: "Order",
-                column: "StoreID");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_BrandID",
+                name: "IX_Order_StoreId",
+                table: "Order",
+                column: "StoreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_BrandId",
                 table: "Product",
-                column: "BrandID");
+                column: "BrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_CategoryID",
+                name: "IX_Product_CategoryId",
                 table: "Product",
-                column: "CategoryID");
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Store_ProductID",
+                name: "IX_Store_ProductId",
                 table: "Store",
-                column: "ProductID");
+                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

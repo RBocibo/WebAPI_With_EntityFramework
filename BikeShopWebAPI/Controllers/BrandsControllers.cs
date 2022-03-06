@@ -13,40 +13,45 @@ namespace BikeShopWebAPI.Controllers
     [ApiController]
     public class BrandsControllers : ControllerBase
     {
-        private readonly ILoggerManager _logger;
         private readonly IMediator _mediator;
 
         public BrandsControllers(IMediator mediator)
         {
             _mediator = mediator;
         }
+
         [HttpGet]
+        [Route("GetAll")]
         public async Task<IEnumerable<Brand>> GetBrands()
         {
-            return await _mediator.Send(new GetBrandsQuery());
+            var brand = await _mediator.Send(new GetBrandsQuery());
+            return brand;
+            
         }
 
         [HttpGet("{id}")]
-        public async Task<Brand> GetBrand(int id)
+        public async Task<IActionResult> GetBrand(int id)
         {
-            return await _mediator.Send<Brand>(new GetBrandByIdQuery { Id = id});
+            var brand = await _mediator.Send<Brand>(new GetBrandByIdQuery { Id = id});
+            return brand == null ? NotFound() : Ok(brand); 
         }
 
         [HttpPost]
         public async Task<ActionResult> CreateBrand([FromBody] AddBrandCommand command)
         {
 
-            return (ActionResult)await _mediator.Send(command);
-
+            var brands = (ActionResult)await _mediator.Send(command);
+            return Ok(brands);
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateBrand([FromBody] UpdateBrandCommand command)
-        {
+          //[Route("Update")]
+          public async Task<ActionResult> UpdateBrand([FromBody] UpdateBrandCommand command)
+          {
 
-            return (ActionResult)await _mediator.Send(command);
+              return (ActionResult)await _mediator.Send(command);
 
-        }
+          }
 
         [HttpDelete]
         public async Task<ActionResult> DeleteBrand(int id)
@@ -54,6 +59,5 @@ namespace BikeShopWebAPI.Controllers
             await _mediator.Send(new DeleteBrandCommand { Id = id });
             return NoContent();
         }
-
     }
 }

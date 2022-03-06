@@ -13,15 +13,16 @@ namespace BikeShop.Entities.Models
         public DateTime ShippedDate { get; set; }
         public DateTime OrderDate { get; set; }
 
+        //public ICollection<Customer>? MyProperty { get; set; }
         [Required]
-        [ForeignKey("CustomerID")]
-        public int CustomerID { get; set; }      
-        public Customer? Customer { get; set; }
+        [ForeignKey("StoreID")]
+        public int StoreId { get; set; }
+        public Store? Store { get; set; }
 
         [Required]
         [ForeignKey("CustomerID")]
-        public int StoreID { get; set; }      
-        public Store? Store { get; set; }
+        public int CustomerId { get; set; }
+        public Customer? Customer { get; set; }
 
     }
 }

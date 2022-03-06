@@ -12,7 +12,6 @@ namespace BikeShop.Entities.Models
         [Required]
         public string StoreName { get; set; }  = string.Empty;
         [Required(ErrorMessage = "A phone number is required.")]
-        //[DataType(DataType.PhoneNumber, ErrorMessage = "Invalid Phone Number")]
         [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Phone Number.")]
         public int Contacts { get; set; }
         [Required]
@@ -23,9 +22,8 @@ namespace BikeShop.Entities.Models
 
         [Required]
         [ForeignKey("ProductID")]
-        public int ProductID { get; set; }
-       
+        public int ProductId { get; set; }
         public Product? Product { get; set; }
-        
+
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace BikeShop.Entities.Handlers.UpdateHandlers
 {
@@ -21,6 +22,7 @@ namespace BikeShop.Entities.Handlers.UpdateHandlers
         async Task<IActionResult> IRequestHandler<UpdateBrandCommand, IActionResult>.Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
         {
             var brand = _context.Brands.Where(a => a.BrandID == request.Brand.BrandID).FirstOrDefault();
+
 
             if (brand == null)
             {

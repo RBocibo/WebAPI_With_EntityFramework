@@ -17,7 +17,8 @@ namespace BikeShop.Entities.Handlers
         }
         public async Task<IEnumerable<Customer>> Handle(GetCustomersQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Customers.ToListAsync(cancellationToken);
+            var customer = await _context.Customers.ToListAsync();
+            return customer;
         }
 
 

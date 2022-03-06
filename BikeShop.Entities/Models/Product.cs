@@ -17,12 +17,12 @@ namespace BikeShop.Entities.Models
 
         [Required]
         [ForeignKey("BrandID")]
-        public int BrandID { get; set; }      
+        public int BrandId { get; set; }
         public Brand? Brand { get; set; }
 
         [Required]
         [ForeignKey("CategoryID")]
-        public int CategoryID { get; set; }       
+        public int CategoryId { get; set; }
         public Category? Category { get; set; }
 
     }

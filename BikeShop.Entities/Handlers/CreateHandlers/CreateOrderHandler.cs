@@ -23,7 +23,7 @@ namespace BikeShop.Entities.Handlers
             _logger = logger;
         }
 
-        async Task<IActionResult> IRequestHandler<AddOrderCommand, IActionResult>.Handle(AddOrderCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(AddOrderCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -32,12 +32,12 @@ namespace BikeShop.Entities.Handlers
                     RequiredDate = request.Order?.RequiredDate ?? DateTime.Now,
                     ShippedDate = request.Order?.ShippedDate ?? DateTime.Now,
                     OrderDate = request.Order?.OrderDate ?? DateTime.Now,
-                    CustomerID = request.Order?.CustomerID ?? 0,
-                    StoreID = request.Order?.StoreID ?? 0
+                    CustomerId = request.Order?.CustomerId ?? 0,
+                    StoreId = request.Order?.StoreId ?? 0
                 };
-                await _context.Orders.AddAsync(entity, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken);
-                _logger.LogInfo("Return all Order from the database");
+                await _context.Orders.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                _logger.LogInfo("Order created");
                 return new OkObjectResult(entity);
             }
             catch (Exception ex)
@@ -45,9 +45,6 @@ namespace BikeShop.Entities.Handlers
                 _logger.LogError(ex.ToString());
                 return new BadRequestObjectResult(ex.Message);
             }
-
-            return new NoContentResult();
         }
-
     }
 }

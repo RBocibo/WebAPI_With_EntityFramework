@@ -10,5 +10,6 @@ namespace BikeShop.Entities.Queries
 {
     public class GetCustomersQuery : IRequest<IEnumerable<Customer>>
     {
+
     }
 }

@@ -24,7 +24,7 @@ namespace BikeShop.Entities.Handlers
                 return Unit.Value;
 
             _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync();
 
             return Unit.Value;
         }

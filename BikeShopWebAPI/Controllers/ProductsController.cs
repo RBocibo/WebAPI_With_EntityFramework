@@ -14,8 +14,6 @@ namespace BikeShopWebAPI.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private BikeShopContext _context;
-        private readonly ILoggerManager _logger;
         private readonly IMediator _mediator;
 
         public ProductsController(IMediator mediator)
@@ -23,15 +21,17 @@ namespace BikeShopWebAPI.Controllers
             _mediator = mediator;
         }
         [HttpGet]
+        [Route("GetAll")]
         public async Task<IEnumerable<Product>> GetProducts()
         {
             return await _mediator.Send(new GetProductsQuery());
         }
 
         [HttpGet("{id}")]
-        public async Task<Product> GetProduct(int id)
+        public async Task<IActionResult> GetProduct(int id)
         {
-            return await _mediator.Send<Product>(new GetProductByIdQuery { Id = id });
+            var product = await _mediator.Send<Product>(new GetProductByIdQuery { Id = id });
+            return product == null ? NotFound() : Ok(product);
         }
 
         [HttpPost]
@@ -40,27 +40,6 @@ namespace BikeShopWebAPI.Controllers
             return (ActionResult)await _mediator.Send(command);
         }
 
-        /*[HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Product product)
-        {
-            try
-            {
-                var dbProducts = _context.Products
-               .FirstOrDefault(p => p.ProductId == id);
-
-                dbProducts.ProductName = product.ProductName;
-                dbProducts.ModelYear = product.ModelYear;
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-
-            return NoContent();
-        }*/
         [HttpPut]
         public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductCommand command)
         {

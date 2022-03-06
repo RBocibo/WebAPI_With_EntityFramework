@@ -13,24 +13,27 @@ namespace BikeShopWebAPI.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private BikeShopContext _context;
-        private readonly ILoggerManager _logger;
         private readonly IMediator _mediator;
 
         public CategoriesController(IMediator mediator)
         {
             _mediator = mediator;
         }
+
         [HttpGet]
+        [Route("GetAll")]
         public async Task<IEnumerable<Category>> GetCategories()
         {
-            return await _mediator.Send(new GetCategoriesQuery());
+            var category = await _mediator.Send(new GetCategoriesQuery());
+
+            return category;
         }
 
         [HttpGet("{id}")]
-        public async Task<Category> GetCategory(int id)
+        public async Task<IActionResult> GetCategory(int id)
         {
-            return await _mediator.Send<Category>(new GetCategoryByIdQuery { Id = id });
+            var category = await _mediator.Send<Category>(new GetCategoryByIdQuery { Id = id });
+            return category == null ? NotFound() : Ok(category);
         }
 
         [HttpPost]
@@ -39,27 +42,6 @@ namespace BikeShopWebAPI.Controllers
             return (ActionResult)await _mediator.Send(command);
         }
 
-        [HttpPut("{id}")]
-        /*public IActionResult Put(int id, [FromBody] Category category)
-        {
-            try
-            {
-                var dbCategories = _context.Categories
-              .FirstOrDefault(c => c.CategoryId == id);
-
-                dbCategories.CategoryName = category.CategoryName;
-
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogError(ex.ToString());
-                return BadRequest(ex.Message);
-            }
-
-            return NoContent();
-        }*/
         [HttpPut]
         public async Task<ActionResult> UpdateCategory([FromBody] UpdateCategoryCommand command)
         {

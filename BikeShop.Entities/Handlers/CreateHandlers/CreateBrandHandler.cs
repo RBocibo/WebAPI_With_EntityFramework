@@ -23,7 +23,7 @@ namespace BikeShop.Entities.Handlers
             _logger = logger;
         }
 
-        async Task<IActionResult> IRequestHandler<AddBrandCommand, IActionResult>.Handle(AddBrandCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(AddBrandCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -32,14 +32,15 @@ namespace BikeShop.Entities.Handlers
                     BrandName = request.Brand?.BrandName ?? string.Empty
                 };
 
-                await _context.Brands.AddAsync(entity, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken);
-                _logger.LogInfo("Return all Brand from the database");
+                await _context.Brands.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                _logger.LogInfo("Brand added.");
                 return new OkObjectResult(entity);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex.ToString());
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestResult();
             }
         }
     }

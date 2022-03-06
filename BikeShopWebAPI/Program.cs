@@ -23,6 +23,7 @@ builder.Services.AddMediatR(typeof(GetBrandHandler).Assembly);
 // Registering Logging service to the container
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -23,7 +23,8 @@ namespace BikeShop.Entities.Handlers
             _context = context;
             _logger = logger;
         }
-        async Task<IActionResult> IRequestHandler<AddCategoryCommand, IActionResult>.Handle(AddCategoryCommand request, CancellationToken cancellationToken)
+
+        public async Task<IActionResult> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,9 +32,9 @@ namespace BikeShop.Entities.Handlers
                 {
                     CategoryName = request.Category?.CategoryName ?? string.Empty
                 };
-                await _context.Categories.AddAsync(entity, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken);
-                _logger.LogInfo("Return all Category from the database");
+                await _context.Categories.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                _logger.LogInfo("Category created");
                 return new OkObjectResult(entity);
             }
             catch (Exception ex)
@@ -41,8 +42,6 @@ namespace BikeShop.Entities.Handlers
                 _logger.LogError(ex.ToString());
                 return new BadRequestObjectResult(ex.Message);
             }
-
-            return new NoContentResult();
         }
     }
 }

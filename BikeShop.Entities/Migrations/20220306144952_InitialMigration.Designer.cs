@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BikeShop.Entities.Migrations
 {
     [DbContext(typeof(BikeShopContext))]
-    [Migration("20220224063245_InitialMigration")]
+    [Migration("20220306144952_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -222,7 +222,7 @@ namespace BikeShop.Entities.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
 
-                    b.Property<int>("CustomerID")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("OrderDate")
@@ -234,14 +234,14 @@ namespace BikeShop.Entities.Migrations
                     b.Property<DateTime>("ShippedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StoreID")
+                    b.Property<int>("StoreId")
                         .HasColumnType("int");
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("CustomerID");
+                    b.HasIndex("CustomerId");
 
-                    b.HasIndex("StoreID");
+                    b.HasIndex("StoreId");
 
                     b.ToTable("Order");
 
@@ -249,20 +249,38 @@ namespace BikeShop.Entities.Migrations
                         new
                         {
                             OrderId = 1,
-                            CustomerID = 1,
+                            CustomerId = 2,
                             OrderDate = new DateTime(2020, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             RequiredDate = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ShippedDate = new DateTime(2020, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StoreID = 1
+                            StoreId = 1
                         },
                         new
                         {
                             OrderId = 2,
-                            CustomerID = 2,
+                            CustomerId = 3,
                             OrderDate = new DateTime(2021, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             RequiredDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ShippedDate = new DateTime(2021, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StoreID = 2
+                            StoreId = 2
+                        },
+                        new
+                        {
+                            OrderId = 3,
+                            CustomerId = 4,
+                            OrderDate = new DateTime(2020, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RequiredDate = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ShippedDate = new DateTime(2020, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StoreId = 1
+                        },
+                        new
+                        {
+                            OrderId = 4,
+                            CustomerId = 2,
+                            OrderDate = new DateTime(2021, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RequiredDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ShippedDate = new DateTime(2021, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StoreId = 2
                         });
                 });
 
@@ -274,10 +292,10 @@ namespace BikeShop.Entities.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"), 1L, 1);
 
-                    b.Property<int>("BrandID")
+                    b.Property<int>("BrandId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryID")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<int>("ModelYear")
@@ -293,9 +311,9 @@ namespace BikeShop.Entities.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.HasIndex("BrandID");
+                    b.HasIndex("BrandId");
 
-                    b.HasIndex("CategoryID");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Product");
 
@@ -303,8 +321,8 @@ namespace BikeShop.Entities.Migrations
                         new
                         {
                             ProductId = 1,
-                            BrandID = 1,
-                            CategoryID = 1,
+                            BrandId = 1,
+                            CategoryId = 1,
                             ModelYear = 2020,
                             Price = 1200m,
                             ProductName = "Bmax 4 wiler"
@@ -312,8 +330,8 @@ namespace BikeShop.Entities.Migrations
                         new
                         {
                             ProductId = 2,
-                            BrandID = 2,
-                            CategoryID = 2,
+                            BrandId = 2,
+                            CategoryId = 2,
                             ModelYear = 2018,
                             Price = 2300m,
                             ProductName = "RMB Max"
@@ -321,8 +339,8 @@ namespace BikeShop.Entities.Migrations
                         new
                         {
                             ProductId = 3,
-                            BrandID = 3,
-                            CategoryID = 3,
+                            BrandId = 3,
+                            CategoryId = 3,
                             ModelYear = 2007,
                             Price = 800m,
                             ProductName = "Bmax 4 wiler"
@@ -330,8 +348,8 @@ namespace BikeShop.Entities.Migrations
                         new
                         {
                             ProductId = 4,
-                            BrandID = 4,
-                            CategoryID = 4,
+                            BrandId = 4,
+                            CategoryId = 4,
                             ModelYear = 2020,
                             Price = 1500m,
                             ProductName = "Max"
@@ -357,7 +375,7 @@ namespace BikeShop.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductID")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("StoreName")
@@ -366,7 +384,7 @@ namespace BikeShop.Entities.Migrations
 
                     b.HasKey("StoreId");
 
-                    b.HasIndex("ProductID");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Store");
 
@@ -377,7 +395,7 @@ namespace BikeShop.Entities.Migrations
                             Address = "121 Lake street Sandton Gauteng",
                             Contacts = 123654,
                             Email = "bikeSonton@bikeshop.co.za",
-                            ProductID = 1,
+                            ProductId = 1,
                             StoreName = "Sandton Shop"
                         },
                         new
@@ -386,7 +404,7 @@ namespace BikeShop.Entities.Migrations
                             Address = "10 Ocean Blue Mall  CapeTown Western Cape",
                             Contacts = 123654,
                             Email = "bikeCapeTown@bikeshop.co.za",
-                            ProductID = 2,
+                            ProductId = 2,
                             StoreName = "Cape Town Shop"
                         },
                         new
@@ -395,7 +413,7 @@ namespace BikeShop.Entities.Migrations
                             Address = "Rich street 10A Bloem FS",
                             Contacts = 123654,
                             Email = "bikeBloem@bikeshop.co.za",
-                            ProductID = 3,
+                            ProductId = 2,
                             StoreName = "Bloemfontein Shop"
                         });
                 });
@@ -404,13 +422,13 @@ namespace BikeShop.Entities.Migrations
                 {
                     b.HasOne("BikeShop.Entities.Models.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerID")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BikeShop.Entities.Models.Store", "Store")
                         .WithMany()
-                        .HasForeignKey("StoreID")
+                        .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -423,13 +441,13 @@ namespace BikeShop.Entities.Migrations
                 {
                     b.HasOne("BikeShop.Entities.Models.Brand", "Brand")
                         .WithMany()
-                        .HasForeignKey("BrandID")
+                        .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BikeShop.Entities.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryID")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -442,7 +460,7 @@ namespace BikeShop.Entities.Migrations
                 {
                     b.HasOne("BikeShop.Entities.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductID")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

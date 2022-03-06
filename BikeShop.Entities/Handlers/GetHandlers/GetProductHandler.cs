@@ -17,8 +17,9 @@ namespace BikeShop.Entities.Handlers
         }
         public async Task<IEnumerable<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Products.ToListAsync(cancellationToken);
-        }
+            var category = await _context.Products.ToListAsync();
+            return category;
+         }
     }
 
 }

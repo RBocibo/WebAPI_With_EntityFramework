@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using BikeShop.Entities.Data;
 using BikeShop.Entities.Models;
 using BikeShop.Entities.Queries;
+using Contracts;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BikeShop.Entities.Handlers
 {
@@ -20,7 +22,8 @@ namespace BikeShop.Entities.Handlers
         }
         public async Task<Brand> Handle(GetBrandByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Brands.FindAsync(request.Id);
+            var brand = await _context.Brands.FindAsync(request.Id);
+            return brand;    
         }
     }
 }

@@ -1,13 +1,10 @@
 ﻿using BikeShop.Entities.Data;
 using BikeShop.Entities.Models;
 using BikeShop.Entities.Queries;
+using Contracts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BikeShop.Entities.Handlers
 {
@@ -21,7 +18,8 @@ namespace BikeShop.Entities.Handlers
         }
         public async Task<IEnumerable<Brand>> Handle(GetBrandsQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Brands.ToListAsync(cancellationToken);
+             var brand = await _context.Brands.ToListAsync();
+             return brand;
         }
     }
 }

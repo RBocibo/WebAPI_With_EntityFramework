@@ -23,7 +23,7 @@ namespace BikeShop.Entities.Handlers
             _logger = logger;
         }
 
-        async Task<IActionResult> IRequestHandler<AddStoreCommand, IActionResult>.Handle(AddStoreCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(AddStoreCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -33,12 +33,12 @@ namespace BikeShop.Entities.Handlers
                     Contacts = request.Store?.Contacts ?? 0,
                     Email = request.Store?.Email ?? string.Empty,
                     Address = request.Store?.Address ?? string.Empty,
-                    ProductID = request.Store?.ProductID ?? 0
+                    ProductId = request.Store?.ProductId ?? 0
 
                 };
-                await _context.Stores.AddAsync(entity, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken);
-                _logger.LogInfo("Return all stores from the database");
+                await _context.Stores.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                _logger.LogInfo("store created");
                 return new OkObjectResult(entity);
             }
             catch (Exception ex)
@@ -46,8 +46,6 @@ namespace BikeShop.Entities.Handlers
                 _logger.LogError(ex.ToString());
                 return new BadRequestObjectResult(ex.Message);
             }
-
-            return new NoContentResult();
         }
     }
 }

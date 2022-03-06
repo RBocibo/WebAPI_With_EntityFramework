@@ -8,6 +8,7 @@ namespace BikeShop.Entities.Models
     {
         [Key]
         public int BrandID { get; set; }
+
         [MaxLength(20)]   
         [Required]
         public string  BrandName { get; set; } = string.Empty;

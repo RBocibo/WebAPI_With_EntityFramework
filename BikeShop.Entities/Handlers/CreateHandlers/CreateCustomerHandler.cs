@@ -22,7 +22,8 @@ namespace BikeShop.Entities.Handlers
             _context = context;
             _logger = logger;
         }
-        async Task<IActionResult> IRequestHandler<AddCustomerCommand, IActionResult>.Handle(AddCustomerCommand request, CancellationToken cancellationToken)
+
+        public async Task<IActionResult> Handle(AddCustomerCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -37,10 +38,11 @@ namespace BikeShop.Entities.Handlers
                     Province = request.Customer?.Province ?? string.Empty,
                     PostalCode = request.Customer?.PostalCode ?? string.Empty,
                     Country = request.Customer?.Country ?? string.Empty
+                    
                 };
-                await _context.Customers.AddAsync(entity, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken);
-                _logger.LogInfo("Return all Customer from the database");
+                await _context.Customers.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                _logger.LogInfo("Customer was created in the database");
                 return new OkObjectResult(entity);
             }
             catch (Exception ex)
@@ -48,8 +50,6 @@ namespace BikeShop.Entities.Handlers
                 _logger.LogError(ex.ToString());
                 return new BadRequestObjectResult(ex.Message);
             }
-
-            return new NoContentResult();
         }
     }
 }
