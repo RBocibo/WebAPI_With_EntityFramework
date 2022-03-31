@@ -5,10 +5,12 @@ using BikeShop.Entities.Models;
 using BikeShop.Entities.Queries;
 using Contracts;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BikeShopWebAPI.Controllers
-{
+{   
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BrandsControllers : ControllerBase

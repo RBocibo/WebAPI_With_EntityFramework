@@ -40,10 +40,10 @@ namespace BikeShopWebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateStore([FromBody] UpdateStoreCommand command)
+        public async Task<IActionResult> UpdateStore([FromBody] UpdateStoreCommand command)
         {
 
-            return (ActionResult)await _mediator.Send(command);
+            return await _mediator.Send(command);
 
         }
 

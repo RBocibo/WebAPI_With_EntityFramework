@@ -43,9 +43,7 @@ namespace BikeShopWebAPI.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductCommand command)
         {
-
             return (ActionResult)await _mediator.Send(command);
-
         }
 
         [HttpDelete]
