@@ -7,9 +7,11 @@ using MediatR;
 using BikeShop.Entities.Queries;
 using BikeShop.Entities.Commands;
 using BikeShop.Entities.Commands.UpdateCommands;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BikeShopWebAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StoresController : ControllerBase
