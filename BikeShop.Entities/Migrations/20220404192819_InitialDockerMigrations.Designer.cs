@@ -4,6 +4,7 @@ using BikeShop.Entities.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BikeShop.Entities.Migrations
 {
     [DbContext(typeof(BikeShopContext))]
-    partial class BikeShopContextModelSnapshot : ModelSnapshot
+    [Migration("20220404192819_InitialDockerMigrations")]
+    partial class InitialDockerMigrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,9 +37,6 @@ namespace BikeShop.Entities.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.HasKey("BrandID");
 
                     b.ToTable("Brand");
@@ -46,26 +45,22 @@ namespace BikeShop.Entities.Migrations
                         new
                         {
                             BrandID = 1,
-                            BrandName = "Max",
-                            IsDeleted = false
+                            BrandName = "Max"
                         },
                         new
                         {
                             BrandID = 2,
-                            BrandName = "RMB",
-                            IsDeleted = false
+                            BrandName = "RMB"
                         },
                         new
                         {
                             BrandID = 3,
-                            BrandName = "Max",
-                            IsDeleted = false
+                            BrandName = "Max"
                         },
                         new
                         {
                             BrandID = 4,
-                            BrandName = "Big Max",
-                            IsDeleted = false
+                            BrandName = "Big Max"
                         });
                 });
 
@@ -140,9 +135,6 @@ namespace BikeShop.Entities.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -176,7 +168,6 @@ namespace BikeShop.Entities.Migrations
                             Country = "SA",
                             Email = "roseyboxa@gmail.com",
                             FirstName = "Rosey",
-                            IsDeleted = false,
                             LastName = "Boxa",
                             PostalCode = "125",
                             Province = "Gauteng",
@@ -190,7 +181,6 @@ namespace BikeShop.Entities.Migrations
                             Country = "SA",
                             Email = "oozyCheal@gmail.com",
                             FirstName = "Oozy",
-                            IsDeleted = false,
                             LastName = "Cheal",
                             PostalCode = "125",
                             Province = "Free State",
@@ -204,7 +194,6 @@ namespace BikeShop.Entities.Migrations
                             Country = "SA",
                             Email = "luluMini@gmail.com",
                             FirstName = "Lulu",
-                            IsDeleted = false,
                             LastName = "Mini",
                             PostalCode = "1235",
                             Province = "Gauteng",
@@ -218,7 +207,6 @@ namespace BikeShop.Entities.Migrations
                             Country = "SA",
                             Email = "roxyFerero@gmail.com",
                             FirstName = "Roxy",
-                            IsDeleted = false,
                             LastName = "Ferero",
                             PostalCode = "001",
                             Province = "Western Cape",
@@ -387,9 +375,6 @@ namespace BikeShop.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -410,7 +395,6 @@ namespace BikeShop.Entities.Migrations
                             Address = "121 Lake street Sandton Gauteng",
                             Contacts = 123654,
                             Email = "bikeSonton@bikeshop.co.za",
-                            IsDeleted = false,
                             ProductId = 1,
                             StoreName = "Sandton Shop"
                         },
@@ -420,7 +404,6 @@ namespace BikeShop.Entities.Migrations
                             Address = "10 Ocean Blue Mall  CapeTown Western Cape",
                             Contacts = 123654,
                             Email = "bikeCapeTown@bikeshop.co.za",
-                            IsDeleted = false,
                             ProductId = 2,
                             StoreName = "Cape Town Shop"
                         },
@@ -430,7 +413,6 @@ namespace BikeShop.Entities.Migrations
                             Address = "Rich street 10A Bloem FS",
                             Contacts = 123654,
                             Email = "bikeBloem@bikeshop.co.za",
-                            IsDeleted = false,
                             ProductId = 2,
                             StoreName = "Bloemfontein Shop"
                         });

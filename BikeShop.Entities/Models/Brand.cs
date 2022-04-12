@@ -12,5 +12,6 @@ namespace BikeShop.Entities.Models
         [MaxLength(20)]   
         [Required]
         public string  BrandName { get; set; } = string.Empty;
+        public bool IsDeleted { get; set; }
     }
 }

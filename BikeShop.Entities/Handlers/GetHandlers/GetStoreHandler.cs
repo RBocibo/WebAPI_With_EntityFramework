@@ -17,8 +17,10 @@ namespace BikeShop.Entities.Handlers
         }
         public async Task<IEnumerable<Store>> Handle(GetStoresQuery request, CancellationToken cancellationToken)
         {
-            var category = await _context.Stores.ToListAsync();
-            return category;
+            //var store = await _context.Stores.ToListAsync();
+            var store = _context.Stores.IgnoreQueryFilters()
+                    .Where(s => EF.Property<bool>(s, "IsDeleted") == false);
+            return store;
          }
     }
 

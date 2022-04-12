@@ -37,5 +37,7 @@ namespace BikeShop.Entities.Models
         [StringLength(20)]
         public string Country { get; set; } = string.Empty;
 
+        public bool IsDeleted { get; set; }
+
     }
 }
